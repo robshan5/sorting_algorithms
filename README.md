@@ -9,7 +9,7 @@ An interactive visualiser for 6 classic sorting algorithms, built in Python with
 ### Bubble Sort
 Repeatedly steps through the array, compares adjacent elements, and swaps them if they're in the wrong order. Simple but slow — each pass bubbles the largest unseen value to its final position.
 
-[![Bubble Sort]](https://youtu.be/vfoMPg9zGKc)
+[Bubble Sort](https://youtu.be/vfoMPg9zGKc)
 
 **Complexity:** O(n²) time · O(1) space
 
@@ -36,7 +36,7 @@ Builds a sorted sub-array one element at a time by shifting each new element lef
 ### Merge Sort
 Recursively divides the array in half, sorts each half, then merges them back together. Consistently fast and stable — the divide-and-conquer approach guarantees O(n log n) in all cases.
 
-[![Merge Sort]](https://youtu.be/aJzO_YmD06A)
+[Merge Sort](https://youtu.be/aJzO_YmD06A)
 
 **Complexity:** O(n log n) time · O(n) space
 
