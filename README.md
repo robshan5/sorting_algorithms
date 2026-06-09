@@ -18,7 +18,7 @@ Repeatedly steps through the array, compares adjacent elements, and swaps them i
 ### Selection Sort
 Scans the unsorted portion of the array to find the minimum element, then swaps it into place. Makes the fewest swaps of any O(n²) algorithm.
 
-demonstrations/selection_sort.mkv
+[Selection Sort](https://youtu.be/TBGzCzYiP9E)
 
 **Complexity:** O(n²) time · O(1) space
 
@@ -45,7 +45,7 @@ Recursively divides the array in half, sorts each half, then merges them back to
 ### Quick Sort
 Picks a pivot element and partitions the array so that everything smaller is to its left and everything larger is to its right, then recurses on each side. Fast in practice despite a worst-case of O(n²).
 
-demonstrations/quick_sort.mkv
+[Quick Sort](https://youtu.be/MPIa0eqRRo0)
 
 **Complexity:** O(n log n) average · O(log n) space
 
