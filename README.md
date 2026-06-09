@@ -36,7 +36,7 @@ demonstrations/insertion_sort.mkv
 ### Merge Sort
 Recursively divides the array in half, sorts each half, then merges them back together. Consistently fast and stable — the divide-and-conquer approach guarantees O(n log n) in all cases.
 
-demonstrations/merge_sort.mkv
+[Merge Sort](https://youtu.be/aJzO_YmD06A)
 
 **Complexity:** O(n log n) time · O(n) space
 
