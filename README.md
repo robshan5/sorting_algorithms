@@ -9,7 +9,7 @@ An interactive visualiser for 6 classic sorting algorithms, built in Python with
 ### Bubble Sort
 Repeatedly steps through the array, compares adjacent elements, and swaps them if they're in the wrong order. Simple but slow — each pass bubbles the largest unseen value to its final position.
 
-[![Bubble Sort]](demonstrations/bubble_sort.mp4)
+[![Bubble Sort]](https://youtu.be/vfoMPg9zGKc)
 
 **Complexity:** O(n²) time · O(1) space
 
@@ -27,7 +27,7 @@ demonstrations/selection_sort.mkv
 ### Insertion Sort
 Builds a sorted sub-array one element at a time by shifting each new element left until it's in the right position. Efficient on small or nearly-sorted arrays.
 
-demonstrations/insertion_sort.mkv
+[Insertion Sort](https://youtu.be/avZRYe--QOM)
 
 **Complexity:** O(n²) time · O(1) space
 
@@ -36,7 +36,7 @@ demonstrations/insertion_sort.mkv
 ### Merge Sort
 Recursively divides the array in half, sorts each half, then merges them back together. Consistently fast and stable — the divide-and-conquer approach guarantees O(n log n) in all cases.
 
-[Merge Sort](https://youtu.be/aJzO_YmD06A)
+[![Merge Sort]](https://youtu.be/aJzO_YmD06A)
 
 **Complexity:** O(n log n) time · O(n) space
 
@@ -54,7 +54,7 @@ demonstrations/quick_sort.mkv
 ### Heap Sort
 Turns the array into a max-heap, then repeatedly extracts the largest element and places it at the end. Guaranteed O(n log n) with no extra memory.
 
-demonstrations/heap_sort.mkv
+[Heap Sort](https://youtu.be/FjU0Ea_Zy4o)
 
 **Complexity:** O(n log n) time · O(1) space
 
