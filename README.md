@@ -9,7 +9,7 @@ An interactive visualiser for 6 classic sorting algorithms, built in Python with
 ### Bubble Sort
 Repeatedly steps through the array, compares adjacent elements, and swaps them if they're in the wrong order. Simple but slow — each pass bubbles the largest unseen value to its final position.
 
-![Bubble Sort](demonstrations/bubble_sort.mp4)
+[![Bubble Sort]](https://raw.githubusercontent.com/robshan5/sorting_algorithms/main/demonstrations/bubble_sort.mp4)
 
 **Complexity:** O(n²) time · O(1) space
 
