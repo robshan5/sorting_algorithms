@@ -45,7 +45,7 @@ Recursively divides the array in half, sorts each half, then merges them back to
 ### Quick Sort
 Picks a pivot element and partitions the array so that everything smaller is to its left and everything larger is to its right, then recurses on each side. Fast in practice despite a worst-case of O(n²).
 
-[Quick Sort](https://www.youtube.com/watch?v=MPIa0eqRRo0)
+[![Quick Sort](https://www.img.youtube.com/vi/MPIa0eqRRo0/0.jpg)](https://www.youtube.com/watch?v=MPIa0eqRRo0)
 
 **Complexity:** O(n log n) average · O(log n) space
 
