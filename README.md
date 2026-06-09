@@ -11,8 +11,6 @@ Repeatedly steps through the array, compares adjacent elements, and swaps them i
 
 [![Bubble Sort]](https://youtu.be/vfoMPg9zGKc)
 
-[![Watch the video](https://img.youtube.com/vi/_5tFXJQIzi4/0.jpg)](https://www.youtube.com/watch?v=_5tFXJQIzi4)
-
 **Complexity:** O(n²) time · O(1) space
 
 ---
