@@ -20,11 +20,11 @@ Run with:     python sorting_visualiser.py
 Linux tip: sudo apt install python3-tk   (if tkinter is missing)
 """
 
+import random
+import threading
+import time
 import tkinter as tk
 from tkinter import ttk
-import random
-import time
-import threading
 
 # ── Palette ─────────────────────────────────────────────────────────────────
 BG          = "#0d0d0d"
@@ -51,12 +51,12 @@ def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
         for j in range(n - i - 1):
-            yield arr[:], [j, j + 1], [], []
+            yield arr[:], [j, j + 1], [], [], []
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                yield arr[:], [], [j, j + 1], []
-        yield arr[:], [], [], list(range(n - i - 1, n))
-    yield arr[:], [], [], list(range(n))
+                yield arr[:], [], [j, j + 1], [], []
+        yield arr[:], [], [], list(range(n - i - 1, n)), []
+    yield arr[:], [], [], list(range(n)), []
 
 
 def selection_sort(arr):
@@ -65,13 +65,13 @@ def selection_sort(arr):
     for i in range(n):
         min_idx = i
         for j in range(i + 1, n):
-            yield arr[:], [min_idx, j], [], sorted_idx
+            yield arr[:], [min_idx, j], [], sorted_idx, []
             if arr[j] < arr[min_idx]:
                 min_idx = j
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
         sorted_idx.append(i)
-        yield arr[:], [], [i, min_idx], sorted_idx
-    yield arr[:], [], [], list(range(n))
+        yield arr[:], [], [i, min_idx], sorted_idx, []
+    yield arr[:], [], [], list(range(n)), []
 
 
 def insertion_sort(arr):
@@ -80,12 +80,12 @@ def insertion_sort(arr):
         key = arr[i]
         j = i - 1
         while j >= 0 and arr[j] > key:
-            yield arr[:], [j, j + 1], [], list(range(i + 1, n))
+            yield arr[:], [j, j + 1], [], list(range(i + 1, n)), []
             arr[j + 1] = arr[j]
-            yield arr[:], [], [j, j + 1], list(range(i + 1, n))
+            yield arr[:], [], [j, j + 1], list(range(i + 1, n)), []
             j -= 1
         arr[j + 1] = key
-    yield arr[:], [], [], list(range(n))
+    yield arr[:], [], [], list(range(n)), []
 
 
 def merge_sort(arr):
@@ -95,19 +95,19 @@ def merge_sort(arr):
         i = j = 0
         k = l
         while i < len(left) and j < len(right):
-            yield arr[:], [l + i, m + 1 + j], [], []
+            yield arr[:], [l + i, m + 1 + j], [], [], []
             if left[i] <= right[j]:
                 arr[k] = left[i]; i += 1
             else:
                 arr[k] = right[j]; j += 1
-            yield arr[:], [], [k], []
+            yield arr[:], [], [k], [], []
             k += 1
         while i < len(left):
             arr[k] = left[i]; i += 1; k += 1
-            yield arr[:], [], [k - 1], []
+            yield arr[:], [], [k - 1], [], []
         while j < len(right):
             arr[k] = right[j]; j += 1; k += 1
-            yield arr[:], [], [k - 1], []
+            yield arr[:], [], [k - 1], [], []
 
     def _merge_sort(arr, l, r):
         if l < r:
@@ -117,61 +117,29 @@ def merge_sort(arr):
             yield from _merge(arr, l, m, r)
 
     yield from _merge_sort(arr, 0, len(arr) - 1)
-    yield arr[:], [], [], list(range(len(arr)))
+    yield arr[:], [], [], list(range(len(arr))), []
 
 
 def quick_sort(arr):
-    def _partition(arr, lo, hi):
-        pivot = arr[hi]
-        i = lo - 1
-        for j in range(lo, hi):
-            yield arr[:], [j, hi], [], []
-            if arr[j] <= pivot:
-                i += 1
-                arr[i], arr[j] = arr[j], arr[i]
-                yield arr[:], [], [i, j], []
-        arr[i + 1], arr[hi] = arr[hi], arr[i + 1]
-        yield arr[:], [], [i + 1, hi], []
-        return i + 1
-
-    def _quick_sort(arr, lo, hi):
-        if lo < hi:
-            gen = _partition(arr, lo, hi)
-            pi  = None
-            while True:
-                try:
-                    state = next(gen)
-                    yield state
-                    # Capture pivot index from last swap yield
-                except StopIteration as e:
-                    pi = e.value if e.value is not None else (lo + hi) // 2
-                    break
-            # Fallback: find pivot position
-            if pi is None:
-                pi = lo
-            yield from _quick_sort(arr, lo, pi - 1)
-            yield from _quick_sort(arr, pi + 1, hi)
-
-    # Simpler iterative wrapper
     def _qs(arr, lo, hi):
         if lo >= hi:
             return
-        pivot = arr[hi]
+        pivot_idx = hi
         i = lo - 1
         for j in range(lo, hi):
-            yield arr[:], [j, hi], [], []
-            if arr[j] <= pivot:
+            yield arr[:], [j], [], [], [pivot_idx]
+            if arr[j] <= arr[pivot_idx]:
                 i += 1
                 arr[i], arr[j] = arr[j], arr[i]
-                yield arr[:], [], [i, j], []
+                yield arr[:], [], [i, j], [], [pivot_idx]
         arr[i + 1], arr[hi] = arr[hi], arr[i + 1]
         pi = i + 1
-        yield arr[:], [], [pi], []
+        yield arr[:], [], [pi], [], []
         yield from _qs(arr, lo, pi - 1)
         yield from _qs(arr, pi + 1, hi)
 
     yield from _qs(arr, 0, len(arr) - 1)
-    yield arr[:], [], [], list(range(len(arr)))
+    yield arr[:], [], [], list(range(len(arr))), []
 
 
 def heap_sort(arr):
@@ -181,25 +149,25 @@ def heap_sort(arr):
         largest = i
         l, r = 2 * i + 1, 2 * i + 2
         if l < n:
-            yield arr[:], [largest, l], [], []
+            yield arr[:], [largest, l], [], [], []
             if arr[l] > arr[largest]:
                 largest = l
         if r < n:
-            yield arr[:], [largest, r], [], []
+            yield arr[:], [largest, r], [], [], []
             if arr[r] > arr[largest]:
                 largest = r
         if largest != i:
             arr[i], arr[largest] = arr[largest], arr[i]
-            yield arr[:], [], [i, largest], []
+            yield arr[:], [], [i, largest], [], []
             yield from heapify(arr, n, largest)
 
     for i in range(n // 2 - 1, -1, -1):
         yield from heapify(arr, n, i)
     for i in range(n - 1, 0, -1):
         arr[0], arr[i] = arr[i], arr[0]
-        yield arr[:], [], [0, i], []
+        yield arr[:], [], [0, i], [], []
         yield from heapify(arr, i, 0)
-    yield arr[:], [], [], list(range(n))
+    yield arr[:], [], [], list(range(n)), []
 
 
 ALGORITHMS = {
@@ -338,7 +306,7 @@ class SortingVisualiser:
 
     # ── Drawing ───────────────────────────────────────────────────────────
 
-    def _draw(self, arr, compare, swap, sorted_idx):
+    def _draw(self, arr, compare, swap, sorted_idx, pivot=None):
         self.canvas.delete("all")
         cw = self.canvas.winfo_width()  or CANVAS_W
         ch = self.canvas.winfo_height() or CANVAS_H
@@ -354,6 +322,7 @@ class SortingVisualiser:
         compare_s = set(compare)
         swap_s    = set(swap)
         sorted_s  = set(sorted_idx)
+        pivot_s   = set(pivot or [])
 
         for i, val in enumerate(arr):
             x0 = PAD_L + i * bar_w
@@ -362,7 +331,9 @@ class SortingVisualiser:
             y0 = ch - PAD_B - bar_h
             y1 = ch - PAD_B
 
-            if i in swap_s:
+            if i in pivot_s:
+                color = BAR_PIVOT
+            elif i in swap_s:
                 color = BAR_SWAP
             elif i in compare_s:
                 color = BAR_COMPARE
@@ -406,7 +377,8 @@ class SortingVisualiser:
         for state in gen:
             if self._stop_flag:
                 break
-            data, compare, swap, sorted_idx = state
+            data, compare, swap, sorted_idx, *_piv = state
+            pivot = _piv[0] if _piv else []
             if compare:
                 self._comparisons += 1
             if swap:
@@ -415,7 +387,7 @@ class SortingVisualiser:
             elapsed = time.perf_counter() - self._start_time
 
             # Schedule draw on main thread
-            self.canvas.after(0, self._draw, data, compare, swap, sorted_idx)
+            self.canvas.after(0, self._draw, data, compare, swap, sorted_idx, pivot)
             self.canvas.after(0, self.cmp_var.set,
                               f"Comparisons: {self._comparisons:,}")
             self.canvas.after(0, self.swp_var.set,
